@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 typedef pair<int, int> iPair;
 
 class Graph
@@ -8,22 +7,6 @@ class Graph
 private:
 	int V;
 	list<iPair> *adj;
-
-	int minKey(vector<int> key, vector<bool> mstSet)
-	{
-		int mi = INT_MAX;
-		int mi_index;
-		for (int i = 0; i < V; ++i)
-		{
-			if(mstSet[i]==false && mi > key[i])
-			{
-				mi = key[i];
-				mi_index = i;
-			}
-		}
-
-		return mi_index;
-	}
 
 public:
 	Graph(int v)
@@ -40,19 +23,20 @@ public:
 
 	void mst()
 	{
-		vector<bool> mstSet(V, false);	
-		vector<int> parent(V, -1);
+		priority_queue<iPair, vector<iPair>, greater<iPair> > pq;
 		vector<int> key(V, INT_MAX);
+		vector<int> parent(V, -1);
+		vector<bool> mstSet(V, false);
 
 		key[0] = 0;
-		int totalWeight = 0;
+		pq.push(make_pair(0, 0));
 
-		for (int i = 0; i < V; ++i)
+		while(!pq.empty())
 		{
-			int u = minKey(key, mstSet);
+			int u = pq.top().second;
+			pq.pop();
 
 			mstSet[u] = true;
-			totalWeight += key[u];
 
 			for(auto x: adj[u])
 			{
@@ -62,16 +46,20 @@ public:
 				if(key[v] > weight && mstSet[v]==false)
 				{
 					key[v] = weight;
+					pq.push(make_pair(key[v], v));
 					parent[v] = u;
 				}
 			}
 		}
 
+		int total = 0;
 		for (int i = 1; i < V; ++i)
 		{
-			cout << parent[i] << " - " << i  << ": " << key[i] << endl;
+			cout << parent[i] << " - " << i << ": " << key[i] << endl;
+			total += key[i];
 		}
-		cout << "\nTotal Weight: " << totalWeight << "\n\n";	
+
+		cout << "Total Weight: " << total << endl;
 	}
 };
 
