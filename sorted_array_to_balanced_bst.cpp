@@ -8,18 +8,43 @@ struct Node
 
 	Node(int data)
 	{
-		this.data = data;
+		this->data = data;
 		left = NULL;
 		right = NULL;
 	}
 };
 
-Node *sorted_array_to_balanced_bst(int arr[], int l, int r)
+Node *sortedArrayToBalancedBst(int arr[], int l, int r)
 {
-	int l = 0, r = n-1;
+	if(l > r)
+		return NULL;
+
 	int m = (l+r)/2;
 
 	Node *root = new Node(arr[m]);
-	root->left = sorted_array_to_balanced_bst(arr, l, m-1);
-	root->right = sorted_array_to_balanced_bst(arr, m, r);
+	root->left = sortedArrayToBalancedBst(arr, l, m-1);
+	root->right = sortedArrayToBalancedBst(arr, m+1, r);
+
+	return root;
+}
+
+void printInoder(Node *root)
+{
+	if(root==NULL)
+		return;
+
+	printInoder(root->left);
+	cout << root->data << " ";
+	printInoder(root->right);
+}
+
+int main()
+{
+	int arr[] = {1, 2, 3, 4, 5, 6, 7};
+	int n = sizeof(arr)/sizeof(arr[0]);
+
+	Node *root = sortedArrayToBalancedBst(arr, 0, n-1);
+	printInoder(root);
+
+	return 0;
 }
