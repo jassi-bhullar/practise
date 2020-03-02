@@ -1,3 +1,6 @@
+// [n = no of elements, m = no of distinct elements]
+// Time Complexity: nLog(m)
+
 #include <bits/stdc++.h>
 using namespace std;
 
