@@ -148,6 +148,91 @@ private:
 		return root;
 	}
 
+	Node *inorderSuccessor(Node *root)
+	{
+		root = root->right;
+
+		while(root->left != NULL)
+			root = root->left;
+
+		return root;
+	}
+
+	Node *deleteNode(int data, Node *root)
+	{
+		if(root==NULL)
+			return root;
+
+		if(root->data > data)
+		{
+			root->left = deleteNode(data, root->left);
+		}
+		else if(root->data < data)
+		{
+			root->right = deleteNode(data, root->right);
+		}
+		else 
+		{
+			if(!root->left || !root->right)
+			{
+				Node *temp = root->left ? root->left : root->right;
+
+				if(!temp)
+				{
+					temp = root;
+					root = NULL;
+				}
+				else
+				{
+					*root = *temp;
+				}
+
+				delete temp;
+			}
+			else
+			{
+				Node *temp = inorderSuccessor(root);
+				root->data = temp->data;
+				root->right = deleteNode(temp->data, root->right);
+			}
+		}
+
+		if(root==NULL)
+			return root;
+
+		root->height = 1 + max(height(root->left), height(root->right));
+
+		int balance = getBalance(root);
+
+		// left left
+		if(balance > 1 && getBalance(root->left) >= 0)
+		{
+			return rightRotate(root);
+		}
+
+		// left right
+		if(balance > 1 && getBalance(root->left) < 0)
+		{
+			root->left = leftRotate(root->left);
+			return rightRotate(root);			
+		}
+
+		// right right
+		if(balance < -1 && getBalance(root->right) <= 0)
+		{
+			return leftRotate(root);
+		}
+
+		// right left
+		if(balance < -1 && getBalance(root->right) > 0)
+		{
+			root->right = leftRotate(root->right);
+			return leftRotate(root);			
+		}
+
+		return root;
+	}
+
 public:
 	AVL()
 	{
@@ -169,18 +254,32 @@ public:
 	{
 		printLevelOrder(root);
 	}
+
+	void deleteKey(int data)
+	{
+		root = deleteNode(data, root);
+	}
 };
 
 int main()
 {
 	AVL avl;
 
-	avl.insert(10);
-	avl.insert(20);
-	avl.insert(30);
-	avl.insert(40);
-	avl.insert(50);
-	avl.insert(25);
+	avl.insert(9);  
+    avl.insert(5);  
+    avl.insert(10);  
+    avl.insert(0);  
+    avl.insert(6);  
+    avl.insert(11);  
+    avl.insert(-1);  
+    avl.insert(1);  
+    avl.insert(2);
+
+	avl.printInorder();
+	avl.printLevelOrder();
+
+	avl.deleteKey(10);
+	cout << endl;
 
 	avl.printInorder();
 	avl.printLevelOrder();
