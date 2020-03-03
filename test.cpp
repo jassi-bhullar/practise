@@ -1,49 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node
+void foo()
 {
-	int data;
-	struct Node *left, *right;
-	int height;
-	int count;
+	int n = 4;
 
-	Node(int val)
+	for(int i=0; i < 5; i++)
 	{
-		data = val;
-		left = right = NULL;
-		height = 1;
-		count = 1;
+		int tmp[n] = {0};
+
+		for(int i=0; i < n; i++)
+			cout << tmp[i] << " ";
+		cout << endl;
 	}
-};
-
-void display(Node *node)
-{
-	cout << node->data << endl;
-	cout << node->height << endl;
-	cout << node->left << endl;
-	cout << node->right << endl;
-	cout << node->count << endl;
-}
-
-void foo(int *x)
-{
-	*x = 6;
 }
 
 int main()
 {
-	// Node *root = new Node(1);
-
-	// root->count++;
-
-	// display(root);
-
-	int y = 4;
-
-	foo(&y);
-
-	cout << y << endl;
+	foo();
 
 	return 0;
 }
