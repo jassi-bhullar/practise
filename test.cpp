@@ -1,23 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void foo()
+int solve(vector<vector<int> > &A)
 {
-	int n = 4;
+    int n = A.size();
+    if(n == 0)
+    	return 0;
 
-	for(int i=0; i < 5; i++)
-	{
-		int tmp[n] = {0};
+    int m = A[0].size();
 
-		for(int i=0; i < n; i++)
-			cout << tmp[i] << " ";
-		cout << endl;
-	}
+    int count[n][m];
+    memset(count, 0, sizeof(count));
+
+    for (int i = 0; i < n; ++i)
+    {
+    	for (int j = 1; j < m; ++j)
+    	{
+    		if(count[i][j])
+    			count[i][j] += count[i][j-1];
+    	}
+    }
+
+    
 }
 
 int main()
 {
-	foo();
-
+	vector<vector<int> > A;
+	solve(A);
 	return 0;
 }
