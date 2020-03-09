@@ -14,7 +14,7 @@ public:
         return x*x + y*y;
     }
 };
-
+// add comment for f4 
 float getRandFloat()
 {
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
