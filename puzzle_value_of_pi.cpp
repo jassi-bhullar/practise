@@ -19,7 +19,7 @@ float getRandFloat()
 {
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
-
+//adding some comment for learning git 
 int main()
 {
     int cnt_inside = 0;
